@@ -25,7 +25,7 @@
         var mapDiv = document.getElementById('map');
         var map = new google.maps.Map(mapDiv, {
             center: myLatLng,
-            zoom: 17
+            zoom: 11
         });
         
           var marker = new google.maps.Marker({
@@ -37,8 +37,11 @@
       
    
     </script>
-    <script async
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDuCKFDFOQBuL8OUwxIzustoTuKp8249z4&callback=initMap">
+    <script async="true"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDuCKFDFOQBuL8OUwxIzustoTuKp8249z4&callback=initMap">
     </script>
+    <!-- <script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDuCKFDFOQBuL8OUwxIzustoTuKp8249z4&callback=initMap">
+    </script> -->
   </body>
 </html>
