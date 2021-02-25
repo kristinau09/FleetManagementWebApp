@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 public class Vehicle {
 	
@@ -19,6 +21,7 @@ public class Vehicle {
 	private String status; //status of the vehicle 
 	private BigDecimal latitude;
 	private BigDecimal longitude;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date lastRecordedPosition;
 	private String currentDriver;
 	private String vin; //vehicle identification number

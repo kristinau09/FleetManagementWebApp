@@ -37,11 +37,10 @@ public class PositionTrackingExternalService {
 	 * If the situation becomes dire, then this method will be automatically skipped and Hystrix will immediately go to the fallback   
 	 */
 
-	@HystrixCommand(fallbackMethod="handleExternalServiceDown",
-			        commandProperties= {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
+	@HystrixCommand(fallbackMethod="handleExternalServiceDown")
 	public PositionOfVehicle getLatestPositionForVehicleFromRemoteMicroservice(String vehicleName) {
 		
-		System.out.println("ATTEMPTING TO CALL REMOTE SERVICE::::::");
+		System.out.println("\nATTEMPTING TO CALL REMOTE SERVICE::::::");
 
 		//get the current position for this vehicle from the microservice
 		RestTemplate restTemplate = new RestTemplate();
@@ -80,6 +79,8 @@ public class PositionTrackingExternalService {
 		PositionOfVehicle position = new PositionOfVehicle();
 		//find the vehicle
 		Vehicle vehicle = dao.findByVehicleName(vehicleName);
+		System.out.println("\n Vehicle name: " + vehicle);		
+		
 		position.setLatitude(vehicle.getLatitude());
 		position.setLongitude(vehicle.getLongitude());
 		position.setTimeStamp(vehicle.getLastRecordedPosition());

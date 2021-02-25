@@ -77,27 +77,23 @@ public class VehicleController {
 	public ModelAndView showVehicleByName(@PathVariable("vehicleName") String vehicleName) {
 		
 		//search vehicle
-		Vehicle vName = dao.findByVehicleName(vehicleName);	
+		Vehicle vehicle = dao.findByVehicleName(vehicleName);	
 		
 		PositionOfVehicle latestPosition = externalService.getLatestPositionForVehicleFromRemoteMicroservice(vehicleName);
 		
 		//if successful, then update the database
-		
+		if(latestPosition.isUpToDate()) {
+			vehicle.setLatitude(latestPosition.getLatitude());
+			vehicle.setLongitude(latestPosition.getLongitude());
+			vehicle.setLastRecordedPosition(latestPosition.getTimeStamp());			
+		}
 				
 		//put position and vehicle into the map
 		Map<String, Object> model = new HashMap<>();
-		model.put("vehicle", vName);
+		model.put("vehicle", vehicle);
 		model.put("position", latestPosition);
 		
 		return new ModelAndView("vehicleInfo", "model", model);
-		
-		
-		
-		
-		
-		
-		
-		
 		
 	}
 
