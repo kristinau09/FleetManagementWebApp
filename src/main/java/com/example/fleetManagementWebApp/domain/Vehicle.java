@@ -17,7 +17,7 @@ public class Vehicle {
 	private String vehicleName;
 	private int odometer; //measure the distance of vehicle travel in its lifetime
 	private String status; //status of the vehicle 
-	private BigDecimal latitute;
+	private BigDecimal latitude;
 	private BigDecimal longitude;
 	private Date lastRecordedPosition;
 	private String currentDriver;
@@ -58,12 +58,12 @@ public class Vehicle {
 		this.status = status;
 	}
 
-	public BigDecimal getLatitute() {
-		return latitute;
+	public BigDecimal getLatitude() {
+		return latitude;
 	}
 
-	public void setLatitute(BigDecimal latitute) {
-		this.latitute = latitute;
+	public void setLatitude(BigDecimal latitude) {
+		this.latitude = latitude;
 	}
 
 	public BigDecimal getLongitude() {
@@ -101,9 +101,10 @@ public class Vehicle {
 	@Override
 	public String toString() {
 		return "Vehicle [id=" + id + ", vehicleName=" + vehicleName + ", odometer=" + odometer + ", status=" + status
-				+ ", latitute=" + latitute + ", longitude=" + longitude + ", lastRecordedPosition="
+				+ ", latitude=" + latitude + ", longitude=" + longitude + ", lastRecordedPosition="
 				+ lastRecordedPosition + ", currentDriver=" + currentDriver + ", vin=" + vin + "]";
-	}	
+	}
+
 	
 	
 

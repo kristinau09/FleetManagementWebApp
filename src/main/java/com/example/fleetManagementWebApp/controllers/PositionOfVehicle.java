@@ -11,11 +11,12 @@ public class PositionOfVehicle {
 	private BigDecimal latitude;
 	private BigDecimal longitude;
 	private Date timeStamp;
+	private boolean upToDate;
 	
-	public BigDecimal getlatitude() {
+	public BigDecimal getLatitude() {
 		return latitude;
 	}
-	public void setlatitude(BigDecimal latitude) {
+	public void setLatitude(BigDecimal latitude) {
 		this.latitude = latitude;
 	}
 	public BigDecimal getLongitude() {
@@ -30,6 +31,14 @@ public class PositionOfVehicle {
 	public void setTimeStamp(Date timeStamp) {
 		this.timeStamp = timeStamp;
 	}
+	public boolean isUpToDate() {
+		return upToDate;
+	}
+	public void setUpToDate(boolean upToDate) {
+		this.upToDate = upToDate;
+	}
+	
+	
 	
 	
 

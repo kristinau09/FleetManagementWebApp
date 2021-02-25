@@ -1,8 +1,5 @@
 package com.example.fleetManagementWebApp.services;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
@@ -14,10 +11,10 @@ import com.example.fleetManagementWebApp.controllers.PositionOfVehicle;
 import com.example.fleetManagementWebApp.dao.VehicleRepository;
 import com.example.fleetManagementWebApp.domain.Vehicle;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 
 
 @Service
-@Transactional
 public class PositionTrackingExternalService {
 	
 	/*
@@ -40,7 +37,8 @@ public class PositionTrackingExternalService {
 	 * If the situation becomes dire, then this method will be automatically skipped and Hystrix will immediately go to the fallback   
 	 */
 
-	@HystrixCommand(fallbackMethod="handleExternalServiceDown")
+	@HystrixCommand(fallbackMethod="handleExternalServiceDown",
+			        commandProperties= {@HystrixProperty(name="execution.isolation.strategy", value="SEMAPHORE")})
 	public PositionOfVehicle getLatestPositionForVehicleFromRemoteMicroservice(String vehicleName) {
 		
 		System.out.println("ATTEMPTING TO CALL REMOTE SERVICE::::::");
@@ -66,17 +64,7 @@ public class PositionTrackingExternalService {
 		 * is going to be made here and remote server is being called
 		 */
 		PositionOfVehicle response = restTemplate.getForObject(physicalLocation + "/vehicles/" + vehicleName, PositionOfVehicle.class);
-		
-		//save the position in our h2database
-		Vehicle vehicleFromDb = dao.findByVehicleName(vehicleName);
-		
-		vehicleFromDb.setLatitute(response.getlatitude());
-		vehicleFromDb.setLongitude(response.getLongitude());
-		vehicleFromDb.setLastRecordedPosition(response.getTimeStamp());
-		
-		//this object is dirty, when the transaction is committed, then JPA will dirty check the object
-		
-		
+		response.setUpToDate(true);
 		
 		System.out.println("SUCCESS!!!!!");
 		
@@ -92,10 +80,10 @@ public class PositionTrackingExternalService {
 		PositionOfVehicle position = new PositionOfVehicle();
 		//find the vehicle
 		Vehicle vehicle = dao.findByVehicleName(vehicleName);
-		position.setlatitude(vehicle.getLatitute());
+		position.setLatitude(vehicle.getLatitude());
 		position.setLongitude(vehicle.getLongitude());
 		position.setTimeStamp(vehicle.getLastRecordedPosition());
-		
+		position.setUpToDate(false);
 		return position;
 	}
 
