@@ -40,6 +40,7 @@ public class PositionTrackingExternalService {
 		
 		//read the last known position for this vehicle
 		PositionOfVehicle position = new PositionOfVehicle();
+		
 		//find the vehicle
 		Vehicle vehicle = dao.findByVehicleName(vehicleName);
 		System.out.println("\n Vehicle name: " + vehicle);		
